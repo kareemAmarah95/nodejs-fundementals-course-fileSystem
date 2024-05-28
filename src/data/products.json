@@ -1,0 +1,22 @@
+{"products":[
+    {
+     "id": 1,
+     "title":"First product"
+    },
+    {
+     "id": 2,
+     "title":"Second product"
+    },
+    {
+     "id": 3,
+     "title":"Third product"
+    },
+    {
+     "id": 4,
+     "title":"Fourth product"
+    },
+    {
+     "id": 5,
+     "title":"Fifth product"
+    }
+]}
