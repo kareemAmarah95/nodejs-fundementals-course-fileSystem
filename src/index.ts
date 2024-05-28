@@ -3,7 +3,7 @@ import fs, {promises as fsPromises} from "fs";
 import path from "path";
 export const server = http.createServer((req,res)=>{
     const productsFilePath = path.join(__dirname, "data", "products.json");
-    console.log(req.url);
+    const assetsPath = path.join(__dirname, "assets")
     // https://localhost:5001/products
     if (req.url === '/products') {
        
@@ -88,7 +88,34 @@ export const server = http.createServer((req,res)=>{
             </div>`)
             res.end("")
         })
-    } else {
+    }else if(req.method === "GET" && req.url === "/assets"){
+        fs.access(assetsPath,(err)=> {
+            if (err) {
+                    console.log("File does not exist or cannot be accessed", productsFilePath)
+                    return;
+            }
+
+            fs.readdir(assetsPath, (err, files)=> {
+                if (err) {
+                   console.error(err);
+                   return; 
+                }
+                res.writeHead(200, {"Content-Type": "text/html"});
+                res.write("<h1>Here are your assets:</h1>");
+                res.write("<ul>")
+                files.forEach(file=> {
+                    res.write(`<li>
+                    <a href="/delete?file=${encodeURIComponent(file)}">${file}</a>
+                    </li>`)
+                });
+                res.write("</ul>");
+                res.end();
+            })
+        })
+    } else if(req.method === "GET" && req.url?.startsWith('/delete')){
+        res.write("<h1>File has been deleted!</h1>");
+        res.end();
+    }  else {
         res.writeHead(404, {"Content-Type": "text/html"});
         res.end("<h1>Not found!</h1>")
     }
