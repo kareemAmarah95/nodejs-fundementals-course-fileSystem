@@ -13,6 +13,17 @@ export const server = http.createServer((req,res)=>{
                 return;
             }
             fs.readFile(productsFilePath,'utf8', (err, data)=>{
+                // Write into a file
+                fs.writeFile(
+                    productsFilePath, 
+                    JSON.stringify({
+                    "id": 6,
+                    "title":"Sixth product"
+                   }, null, 2), {
+                    flag: "w"
+                   },err=> {
+                    console.log(err)
+                   })
                 res.writeHead(200, {"Content-Type": "application/json"})
                 console.log("DATA => ", JSON.parse(data));
                 res.write(data);
