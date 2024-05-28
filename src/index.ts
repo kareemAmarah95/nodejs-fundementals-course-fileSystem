@@ -1,11 +1,11 @@
 import * as http from 'http'; // => ES Module 
-import fs from "fs";
+import fs, {promises as fsPromises} from "fs";
 import path from "path";
 export const server = http.createServer((req,res)=>{
+    const productsFilePath = path.join(__dirname, "data", "products.json");
     console.log(req.url);
     // https://localhost:5001/products
     if (req.url === '/products') {
-        const productsFilePath = path.join(__dirname, "data", "products.json");
        
         fs.access(productsFilePath, err=> {
             if (err) {
@@ -15,21 +15,7 @@ export const server = http.createServer((req,res)=>{
             fs.readFile(productsFilePath,'utf8', (err, data)=>{
                 const jsonProducts:{products: [{id: number, title: string, description: string}]} = JSON.parse(data);
                 // Write into a file
-                const submittedProduct = {
-                    id: 2,
-                    title:"Second product",
-                    description: "Second product description"
-                   }
-
-                   jsonProducts.products.push(submittedProduct)
-                   const updatedData = JSON.stringify(jsonProducts)
-                fs.writeFile(
-                    productsFilePath, 
-                    updatedData, {
-                    flag: "w"
-                   },err=> {
-                    console.log(err)
-                   });
+                
 
                 res.writeHead(200, {"Content-Type": "application/json"})
                 console.log("DATA => ", jsonProducts);
@@ -64,17 +50,36 @@ export const server = http.createServer((req,res)=>{
         res.end("<h1>Welcome back!</h1>")
         // HTTP Method (POST) && Route => /add-product
     } else if(req.method === "POST" && req.url === "/add-product"){
-        // Data => Request ()
-        //title=MY_TITLE&description=MY_DESCRIPTION+++++++++++++++
         let body = '';
         req.on("data", (chunk) => {
             body += chunk.toString()
         })
         // Parsing => Data
-        req.on('end', ()=> {
+        req.on('end', async()=> {
             const data = new URLSearchParams(body);
             const title = data.get("title");
             const description = data.get("description");
+
+            try {
+              const jsonData = await fsPromises.readFile(productsFilePath, "utf8") 
+               const jsonProducts:{products: [{id: number, title: string, description: string}]} = JSON.parse(jsonData);
+               
+               jsonProducts.products.push({id: jsonProducts.products.length + 1, title: title as string, description: description as string});
+               const updatedData = JSON.stringify(jsonProducts, null, 2);
+               await fsPromises.writeFile(productsFilePath, updatedData);
+               fs.writeFile(
+                productsFilePath, 
+                updatedData, {
+                flag: "w"
+               },err=> {
+                console.log(err)
+               });
+            } catch (error) {
+                console.log(error)
+            }
+
+
+             
             res.writeHead(200, {"Content-Type": "text/html"});
             res.write(`<div>
             <h1>Product has been added.</h1>
