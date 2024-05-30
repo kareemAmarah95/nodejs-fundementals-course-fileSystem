@@ -91,7 +91,25 @@ app.patch('/products/:id', (req, res)=> {
 
 })
 
+app.delete("/products/:id", (req, res)=> {
+    const productId = +req.params.id;
 
+    if (isNaN(productId)) {
+        return res.status(404).send({
+            message: "Product not found!"
+        })
+    }
+
+    const productIndex : number | undefined = fakeProductsData.findIndex(product => product.id === productId);
+    if(productIndex !== -1){
+        const filteredProduct = fakeProductsData.filter(product => product.id !== productId)
+        res.status(200).send(filteredProduct)
+    } else {
+        return res.status(404).send({
+            message: "Product not found!"
+        })
+    }
+})
 
 const PORT: number = 5001;
 
