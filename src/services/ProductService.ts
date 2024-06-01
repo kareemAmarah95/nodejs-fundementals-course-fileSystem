@@ -8,24 +8,28 @@ export default class ProductService {
   findAll(): Product[]{
     return this.products;
   }
+
+  filterByQuery(filterQuery?:string){
+        
+            if (filterQuery) {
+                const propertiesToFilter = filterQuery.split(',');
+                let filteredProducts = []
+                filteredProducts = this.findAll().map(product => {
+                    const filteredProduct: any = {};
+                    propertiesToFilter.forEach(property => {
+                        if (product.hasOwnProperty(property as keyof Product)){
+                          filteredProduct[property] = product[property as keyof Product] 
+                        } 
+                    })
+                    return {id:product.id,...filteredProduct};
+                })
+                return filteredProducts;
+            }
+          return this.findAll()
+  }
 }
 
 /**
- * //     const filterQuery = req.query.filter as string;
-//     if (filterQuery) {
-//         const propertiesToFilter = filterQuery.split(',');
-//         let filteredProducts = []
-//         filteredProducts = fakeProductsData.map(product => {
-//             const filteredProduct: any = {};
-//             propertiesToFilter.forEach(property => {
-//                 if (product.hasOwnProperty(property as keyof Product)){
-//                    filteredProduct[property] = product[property as keyof Product] 
-//                 } 
-//             })
-//             return {id:product.id,...filteredProduct};
-//         })
-//         return res.send(filteredProducts);
-//     }
-//    return res.send(fakeProductsData)
+ * //   
  * 
  */

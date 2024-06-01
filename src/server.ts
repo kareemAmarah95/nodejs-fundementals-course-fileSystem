@@ -11,14 +11,13 @@ const fakeProductsData = generateFakeProducts();
 const productService = new ProductService(fakeProductsData)
 
 const productController = new ProductController(productService);
-console.log(productController.getProducts())
 app.get('/', (_req, res)=> {
     res.send(`<h1>Hello Express.js</h1>`)
 })
 
 
 // Endpoints (PRODUCTS)
-app.get('/products', (req, res)=> res.send(productController.getProducts()))
+app.get('/products', (req, res)=> res.send(productController.getProducts(req)))
 
 app.get('/products/:id', (req: Request, res: Response)=> {
     console.log(+req.params.id)
