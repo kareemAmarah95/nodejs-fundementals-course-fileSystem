@@ -1,35 +1,42 @@
 import express, {Request, Response} from "express";
 import { generateFakeProducts } from "./utils/fakeData";
 import { Product } from "./interfaces";
+import ProductController from "./controllers/productController";
+import { ProductsService } from "./services/ProductsService";
 const app = express();
 
 app.use(express.json());
+const fakeProductsData = generateFakeProducts();
 
+const productService = new ProductsService()
+
+const productController = new ProductController(productService);
+console.log(productController.getProducts())
 app.get('/', (_req, res)=> {
     res.send(`<h1>Hello Express.js</h1>`)
 })
 
 
-const fakeProductsData = generateFakeProducts();
 // Endpoints (PRODUCTS)
 app.get('/products', (req, res)=> {
+    return res.send(productController.getProducts());
     // Filter By, keyof Product
-    const filterQuery = req.query.filter as string;
-    if (filterQuery) {
-        const propertiesToFilter = filterQuery.split(',');
-        let filteredProducts = []
-        filteredProducts = fakeProductsData.map(product => {
-            const filteredProduct: any = {};
-            propertiesToFilter.forEach(property => {
-                if (product.hasOwnProperty(property as keyof Product)){
-                   filteredProduct[property] = product[property as keyof Product] 
-                } 
-            })
-            return {id:product.id,...filteredProduct};
-        })
-        return res.send(filteredProducts);
-    }
-   return res.send(fakeProductsData)
+//     const filterQuery = req.query.filter as string;
+//     if (filterQuery) {
+//         const propertiesToFilter = filterQuery.split(',');
+//         let filteredProducts = []
+//         filteredProducts = fakeProductsData.map(product => {
+//             const filteredProduct: any = {};
+//             propertiesToFilter.forEach(property => {
+//                 if (product.hasOwnProperty(property as keyof Product)){
+//                    filteredProduct[property] = product[property as keyof Product] 
+//                 } 
+//             })
+//             return {id:product.id,...filteredProduct};
+//         })
+//         return res.send(filteredProducts);
+//     }
+//    return res.send(fakeProductsData)
 })
 
 app.get('/products/:id', (req: Request, res: Response)=> {
