@@ -46,8 +46,8 @@ export default class ProductService {
   updateProductByIndex(index:number, productBody: ProductBody){
     return this.findAll()[index] = {...this.findAll()[index],...productBody}; 
   }
-  deleteProductByIndex(index:number){
-    return this.findAll()[index] = {...this.findAll()[index]}; 
+  deleteProductByIndex(productId: number){
+    return  this.findAll().filter(product => product.id !== productId)
   }
 }
 

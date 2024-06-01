@@ -71,7 +71,7 @@ class ProductController {
         
             const productIndex : number | undefined = this.productService.findAll().findIndex(product => product.id === productId);
             if(productIndex !== -1){
-                const filteredProduct = this.productService.findAll().filter(product => product.id !== productId);
+                const filteredProduct = this.productService.deleteProductByIndex(productId);
                 res.status(200).send(filteredProduct)
             } else {
                 return res.status(404).send({
