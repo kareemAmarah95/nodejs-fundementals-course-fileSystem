@@ -17,22 +17,9 @@ app.get('/', (_req, res)=> {
 
 
 // Endpoints (PRODUCTS)
-app.get('/products', (req, res)=> res.send(productController.getProducts(req)))
+app.get('/products', (req, res)=> productController.getProducts(req, res))
 
-app.get('/products/:id', (req: Request, res: Response)=> {
-    console.log(+req.params.id)
-    const productId = +req.params.id;
-    if (isNaN(productId)) {
-         res.status(404).send({message:"Invalid product ID"})
-    }
-    const findProduct: Product | undefined = fakeProductsData.find((product) => product.id === productId);
-    if (findProduct) {
-        res.send({id:`${productId}`, name:findProduct.title, price:findProduct.price });
-    } else {
-        res.status(404).send({message:"Product not found"})
-
-    }
-})
+app.get('/products/:id', (req, res)=> productController.getProductById(req,res))
 
 // Create a new product
 app.post('/products', (req, res) => {
