@@ -87,6 +87,12 @@ class ProductController {
                 products: this.productService.findAll()
             })
         }
+
+        renderProductPage(req: Request, res: Response){
+           res.render('product', {
+            product: this.productService.getProductById(1)
+           }) 
+        }
 }
 
 export default ProductController;

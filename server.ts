@@ -28,6 +28,7 @@ const productController = new ProductController(productService);
 // Products Route
 app.get('/products', (req, res) => productController.renderProductsList(req, res))
 
+app.get('/products/:id', (req, res) => productController.renderProductPage(req, res))
 
 app.get('/', (_req, res)=> {
   res.send(`<h1>Hello Express.js</h1>`)
