@@ -9,8 +9,7 @@
     "undici-types": "^5.26.5"
   },
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "nodemon src/server.ts 'tsc --watch && node dist/index.js'",
+    "dev": "nodemon server.ts",
     "build": "tsc -p ."
   },
   "keywords": [],

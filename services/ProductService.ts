@@ -1,4 +1,4 @@
-import { Product } from "../interfaces";
+import { Product } from "../interfaces/index";
 
 type ProductBody ={
   title: string;
@@ -17,7 +17,7 @@ export default class ProductService {
         
             if (filterQuery) {
                 const propertiesToFilter = filterQuery.split(',');
-                let filteredProducts = []
+                let filteredProducts:Product[] = []
                 filteredProducts = this.findAll().map(product => {
                     const filteredProduct: any = {};
                     propertiesToFilter.forEach(property => {

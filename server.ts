@@ -1,13 +1,23 @@
 import express, {Request, Response} from "express";
-import { generateFakeProducts } from "./utils/fakeData";
-import { Product } from "./interfaces";
-import ProductController from "./controllers/productController";
-import  ProductService  from "./services/ProductService";
+import path from "path";
+import { generateFakeProducts } from './utils/fakeData';
+import ProductService from './services/ProductService';
+import ProductController from './controllers/productController';
 const app = express();
 
 app.use(express.json());
 
 app.set('view engine', 'pug');
+
+app.set('views', path.join(__dirname,"views"))
+
+// Static files
+app.use(express.static(path.join(__dirname, "public"),))
+
+
+app.get('/', (req, res) => {
+    res.render('index', { title: 'Hey', message: 'Hello there!' })
+  })
 
 const fakeProductsData = generateFakeProducts();
 
@@ -36,3 +46,8 @@ const PORT: number = 5001;
 app.listen(PORT,() => {
     console.log(`Server running at => http://localhost:${PORT}`)
   })
+
+  // ** /
+  // ** /products
+  // ** /login
+  // ** /checkout
