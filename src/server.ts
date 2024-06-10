@@ -6,6 +6,9 @@ import  ProductService  from "./services/ProductService";
 const app = express();
 
 app.use(express.json());
+
+app.set('view engine', 'pug');
+
 const fakeProductsData = generateFakeProducts();
 
 const productService = new ProductService(fakeProductsData)
