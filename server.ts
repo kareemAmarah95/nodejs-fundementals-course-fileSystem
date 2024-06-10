@@ -26,9 +26,7 @@ const productController = new ProductController(productService);
 
 
 // Products Route
-app.get('/products', (req, res) => {
-  res.render('products', { title: 'Hey', message: 'Hello there!' })
-})
+app.get('/products', (req, res) => productController.renderProductsList(req, res))
 
 
 app.get('/', (_req, res)=> {
