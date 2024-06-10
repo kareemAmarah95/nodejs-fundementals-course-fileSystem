@@ -89,8 +89,10 @@ class ProductController {
         }
 
         renderProductPage(req: Request, res: Response){
+            const productId = +req.params.id;
+            console.log(this.productService.getProductById(productId))
            res.render('product', {
-            product: this.productService.getProductById(1)
+            product: this.productService.getProductById(productId)
            }) 
         }
 }
