@@ -5,7 +5,12 @@ export default {
     "./views/*.pug"
   ],
   theme: {
-    extend: {},
+    container: {
+      center: true,
+    },
+    extend: {
+
+    },
   },
   plugins: [],
 }
