@@ -15,30 +15,43 @@ app.set('views', path.join(__dirname,"views"))
 app.use(express.static(path.join(__dirname, "public"),))
 
 
-app.get('/', (req, res) => {
-    res.render('index', { title: 'Hey', message: 'Hello there!' })
-  })
+
 
 const fakeProductsData = generateFakeProducts();
 
 const productService = new ProductService(fakeProductsData)
 
 const productController = new ProductController(productService);
+
+
+
+// Products Route
+app.get('/products', (req, res) => {
+  res.render('products', { title: 'Hey', message: 'Hello there!' })
+})
+
+
 app.get('/', (_req, res)=> {
-    res.send(`<h1>Hello Express.js</h1>`)
+  res.send(`<h1>Hello Express.js</h1>`)
 })
 
 
 // Endpoints (PRODUCTS)
-app.get('/products', (req, res)=> productController.getProducts(req, res))
+app.get('/api/products', (req, res)=> productController.getProducts(req, res))
 
-app.get('/products/:id', (req, res)=> productController.getProductById(req,res))
+app.get('/api/products/:id', (req, res)=> productController.getProductById(req,res))
 
-app.post('/products', (req, res) => productController.createProduct(req,res))
+app.post('/api/products', (req, res) => productController.createProduct(req,res))
 
-app.patch('/products/:id', (req, res)=> productController.updateProduct(req,res))
+app.patch('/api/products/:id', (req, res)=> productController.updateProduct(req,res))
 
-app.delete("/products/:id", (req, res)=> productController.deleteProduct(req,res))
+app.delete("/api/products/:id", (req, res)=> productController.deleteProduct(req,res))
+
+app.get("*", (req, res)=> {
+  res.render("notFound");
+})
+
+
 
 const PORT: number = 5001;
 
