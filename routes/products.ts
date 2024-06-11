@@ -12,7 +12,7 @@ const productService = new ProductService(fakeProductsData)
 const {getProducts, createProduct, getProductById, updateProduct, deleteProduct} = new ProductController(productService);
 
 
-productsRouter.route('/').get((req, res)=> getProducts).post(createProduct);
+productsRouter.route('/').get(getProducts).post(createProduct);
 productsRouter.route('/:id').get(getProductById).patch(updateProduct).delete(deleteProduct)
 
 export default productsRouter;
