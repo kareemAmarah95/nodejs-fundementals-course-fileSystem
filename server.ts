@@ -3,6 +3,7 @@ import path from "path";
 import { generateFakeProducts } from './utils/fakeData';
 import ProductService from './services/ProductService';
 import ProductController from './controllers/productController';
+import productsRouter from './routes/products';
 const app = express();
 
 app.use(express.json());
@@ -36,17 +37,12 @@ app.get('/products/:id', (req, res) => productController.renderProductPage(req, 
 
 
 // Endpoints (PRODUCTS)
-app.get('/api/products', (req, res)=> productController.getProducts(req, res))
 
-app.get('/api/products/:id', (req, res)=> productController.getProductById(req,res))
 
-app.post('/api/products', (req, res) => productController.createProduct(req,res))
+// ** Products API Routes
 
-app.patch('/api/products/:id', (req, res)=> productController.updateProduct(req,res))
+app.use('/api/products', productsRouter)
 
-app.delete("/api/products/:id", (req, res)=> productController.deleteProduct(req,res))
-
-// app.get('/', (req,res) => productController.renderHomePage(req,res))
 app.get('/', (req,res) => {
   res.render("index");
 })
