@@ -30,9 +30,9 @@ app.get('/products', (req, res) => productController.renderProductsList(req, res
 
 app.get('/products/:id', (req, res) => productController.renderProductPage(req, res))
 
-app.get('/', (_req, res)=> {
-  res.send(`<h1>Hello Express.js</h1>`)
-})
+// app.get('/', (_req, res)=> {
+//   // res.send(`<h1>Hello Express.js</h1>`)
+// })
 
 
 // Endpoints (PRODUCTS)
@@ -45,6 +45,12 @@ app.post('/api/products', (req, res) => productController.createProduct(req,res)
 app.patch('/api/products/:id', (req, res)=> productController.updateProduct(req,res))
 
 app.delete("/api/products/:id", (req, res)=> productController.deleteProduct(req,res))
+
+// app.get('/', (req,res) => productController.renderHomePage(req,res))
+app.get('/', (req,res) => {
+  res.render("index");
+})
+
 
 app.get("*", (req, res)=> {
   res.render("notFound");

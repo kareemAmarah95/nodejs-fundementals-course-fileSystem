@@ -87,6 +87,12 @@ class ProductController {
                 products: this.productService.findAll()
             })
         }
+        renderHomePage(req: Request, res: Response){
+            res.render("home", {
+                pageTitle: "Welcome to home page.",
+                description: "This is the home page description.",
+            })
+        }
 
         renderProductPage(req: Request, res: Response){
             const productId = +req.params.id;
@@ -95,6 +101,9 @@ class ProductController {
             product: this.productService.getProductById(productId)
            }) 
         }
-}
+} 
+//       renderNotFoundPage(req:Request, res:Response){
+//         res.render('notFound')
+// }
 
 export default ProductController;
