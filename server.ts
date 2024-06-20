@@ -7,6 +7,7 @@ import productsRouter from './routes/products';
 import ProductsViewController from './controllers/ProductsViewController';
 import ErrorMiddleware from './middlewares/Error';
 import dotenv from "dotenv";
+import NotFoundMiddleware from './middlewares/NotFound';
 const app = express();
 
 app.use(express.json());
@@ -47,9 +48,8 @@ app.get('/', (req,res) => {
 })
 
 
-app.get("*", (req, res)=> {
-  res.render("notFound");
-})
+// Middlewares 
+app.use(NotFoundMiddleware.handle)
 
 app.use(ErrorMiddleware.handle)
 

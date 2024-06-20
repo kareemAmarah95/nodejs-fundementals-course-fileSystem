@@ -12,7 +12,6 @@ class ProductController {
         this.deleteProduct = this.deleteProduct.bind(this);
     }
     getProducts(req:Request, res:Response){
-        throw new Error("Something went wrong 🔥");
         const filterQuery = req.query.filter as string;
         if (filterQuery) {
          return res.send(this.productService.filterByQuery(filterQuery)); 
