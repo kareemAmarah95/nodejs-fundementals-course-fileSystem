@@ -5,6 +5,7 @@ import ProductService from './services/ProductService';
 import ProductController from './controllers/productController';
 import productsRouter from './routes/products';
 import ProductsViewController from './controllers/ProductsViewController';
+import ErrorMiddleware from './middlewares/Error';
 const app = express();
 
 app.use(express.json());
@@ -49,6 +50,7 @@ app.get("*", (req, res)=> {
   res.render("notFound");
 })
 
+app.use(ErrorMiddleware.handle)
 
 
 const PORT: number = 5001;
